@@ -1,0 +1,6 @@
+node_modules/
+.env
+*.log
+*.mcpb
+
+.m365-attachment-reader-mcp-local/

@@ -1,0 +1,82 @@
+{
+  "manifest_version": "0.1",
+  "dxt_version": "0.1",
+  "name": "m365-attachment-reader-mcp-local",
+  "display_name": "M365 Attachment Reader MCP Local",
+  "version": "0.1.0",
+  "description": "Read and parse Outlook email attachments locally inside Claude Desktop using Microsoft Graph.",
+  "long_description": "A local single-user MCP server for Claude Desktop that authenticates to Microsoft 365 using device code flow, lists Outlook messages and attachments, and parses attachment content including OCR-scanned PDFs, Word, PowerPoint, Excel, images, archives, and Outlook MSG files.",
+  "author": {
+    "name": "Zacccck",
+    "url": "https://github.com/Zacccck"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "server.mjs"
+  },
+  "mcp_config": {
+    "command": "node",
+    "args": [
+      "${__dirname}/server.mjs"
+    ],
+    "env": {
+      "M365_CLIENT_ID": "${user_config.m365_client_id}",
+      "M365_TENANT_ID": "${user_config.m365_tenant_id}",
+      "M365_AUTO_OPEN_BROWSER": "${user_config.m365_auto_open_browser}"
+    }
+  },
+  "user_config": {
+    "m365_client_id": {
+      "title": "Microsoft Entra App Client ID",
+      "description": "Application (client) ID from your Microsoft Entra app registration.",
+      "type": "string",
+      "required": true,
+      "secret": false
+    },
+    "m365_tenant_id": {
+      "title": "Tenant ID",
+      "description": "Optional Microsoft Entra tenant ID. Use common for most personal or multi-tenant setups.",
+      "type": "string",
+      "required": false,
+      "default": "common",
+      "secret": false
+    },
+    "m365_auto_open_browser": {
+      "title": "Auto-open browser",
+      "description": "If enabled, begin_auth will try to open the Microsoft login page automatically.",
+      "type": "boolean",
+      "required": false,
+      "default": true
+    }
+  },
+  "tools": [
+    {
+      "name": "health_check",
+      "description": "Check whether the local Outlook attachment MCP server is running."
+    },
+    {
+      "name": "begin_auth",
+      "description": "Start Microsoft 365 device-code login for the local MCP server."
+    },
+    {
+      "name": "auth_status",
+      "description": "Check whether Microsoft 365 login has completed."
+    },
+    {
+      "name": "list_recent_messages",
+      "description": "List recent Outlook emails and whether they have attachments."
+    },
+    {
+      "name": "list_email_attachments",
+      "description": "List attachments for a specific Outlook email."
+    },
+    {
+      "name": "read_email_attachment",
+      "description": "Download and parse an Outlook attachment, including OCR and image-based formats."
+    }
+  ],
+  "compatibility": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
